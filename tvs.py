@@ -27,10 +27,7 @@ headers = {
 
 # 可同时处理的省份列表
 #provinces = ['天津']
-provinces = ['北京', '天津', '上海', '重庆', '河北', '山西', '内蒙古', '辽宁', 
-             '吉林', '黑龙江', '江苏', '浙江', '安徽', '福建', '江西', '山东', 
-             '河南', '湖北', '湖南', '广东', '广西', '海南', '四川', '贵州',
-                 '云南', '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆']
+provinces = ['重庆', '江苏']
 
 
 # 从 URL 加载后缀
@@ -127,7 +124,7 @@ def measure_download_speed(url, name, duration=10):
             speed = 0.0  # 超过时限则速度为0
         else:
             speed = total_downloaded / elapsed_time / 1024 / 1024  # MB/s
-            print(f"测量下载速度：{name} -- {url} -- {speed:.2f} MB/s")
+            print(f"测量下载速度：{name}  {url}  {speed:.2f} MB/s")
         return name, url, speed
     except requests.exceptions.RequestException as e:
         #print(f"Failed to download {url}: {e}")
@@ -138,8 +135,8 @@ def process_province(province, output_file):
     print(f"处理 {province} 数据")
 
     # 加载该省份的后缀和URL对应名称
-    suffixes = load_suffixes(f'http://8.138.87.43:2020/%E7%BB%84%E6%92%AD/url_names_{province}.txt')
-    url_names = load_url_names(f'http://8.138.87.43:2020/%E7%BB%84%E6%92%AD/url_names_{province}.txt')
+    suffixes = load_suffixes(f'https://raw.githubusercontent.com/panybbib/tvs/default/url/url_{province}.txt')
+    url_names = load_url_names(f'https://raw.githubusercontent.com/panybbib/tvs/default/url/url_{province}.txt')
 
     # 获取该省份的JSON数据
     json_data = fetch_province_data(province)
@@ -179,7 +176,8 @@ def process_province(province, output_file):
         file.write(f"\n#{province},#genre#\n")  # 写入省份名称作为区分
         for name, url, speed in sorted_results:
             if speed > 0:
-                file.write(f"{name},{url} -- {speed:.2f} MB/s\n")
+                file.write(f"{name},{url}\n")
+                #file.write(f"{name},{url} -- {speed:.2f} MB/s\n")
 
 def main():
     output_file = "360results.txt"
