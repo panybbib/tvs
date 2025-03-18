@@ -2,8 +2,8 @@ name: 360
 
 on:
   schedule:
-    #- cron: '30 19,22,1,4,7,10,13,16 * * *' # 每天的第3小时30分触发一次
-    - cron: '00 3 * * *'
+    - cron: '0 5,11,17,23 * * *' # 每6小时触发一次
+
   workflow_dispatch:
   # push:
   #   branches:
@@ -26,13 +26,13 @@ jobs:
         run: pip install selenium requests futures eventlet
 
       - name: Run iptv
-        run: python ${{ github.workspace }}/360.py
+        run: python ${{ github.workspace }}/tvs.py
 
         
       - name: 提交
         run: |
-          git config --local user.email "191049659@qq.com"
-          git config --local user.name "zow-zow"
+          git config --local user.email "115099300@qq.com"
+          git config --local user.name "pany"
           git add .
           git commit *.txt -m "Add generated file"
           #git commit *.m3u -m "Add generated file"
